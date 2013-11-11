@@ -31,12 +31,22 @@ DOCOPT
     end
 
     def run
+      trap_interrupt
+
       if @args['fetch']
         Rpodder::Fetch.new
       end
 
       if @args['import']
         Rpodder::Import.new
+      end
+    end
+
+    def trap_interrupt
+      Signal.trap("INT") do
+        $stderr.puts "\n\nCaught Ctrl-C, cleaning up, and exiting!"
+        #cleanup
+        exit(1)
       end
     end
   end
