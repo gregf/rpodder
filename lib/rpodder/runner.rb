@@ -31,8 +31,6 @@ DOCOPT
     end
 
     def run
-      Rpodder::Configurator.new
-
       if @args['fetch']
         Rpodder::Fetch.new
       end
