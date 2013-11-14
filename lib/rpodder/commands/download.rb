@@ -35,8 +35,9 @@ module Rpodder
         dest_dir = File.expand_path(@conf['download'])
       else
         dest_dir = File.join(File.expand_path(@conf['download']), pcast_title)
-        Dir.mkdir dest_dir unless Dir.exists? dest_dir
+        create_dir dest_dir
       end
+
       case @conf['fetcher']
       when /wget/i
         system %Q{wget -c #{url} -O "#{File.join(dest_dir, file)}"}

@@ -1,4 +1,3 @@
-require 'terminal-table'
 module Rpodder
   class List_podcasts < Configurator
     def initialize

@@ -1,5 +1,7 @@
 module Rpodder
   class Configurator
+    include Rpodder
+
     def initialize
       @@default_path = get_config_dir
       @@cachedb = File.join(@@default_path, 'cache.db')
@@ -47,11 +49,11 @@ module Rpodder
     end
 
     def load_working_dir!
-      Dir.mkdir @@default_path unless Dir.exists? @@default_path
+      create_dir @@default_path
     end
 
     def load_download_dir!
-      Dir.mkdir(File.expand_path @conf['download']) unless Dir.exists?(File.expand_path @conf['download'])
+      create_dir File.expand_path(@conf['download'])
     end
 
     def start_logging
