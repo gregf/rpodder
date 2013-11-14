@@ -15,6 +15,7 @@ module Rpodder
       load_download_dir!
       load_database!
       import_podcasts!
+      remove_unused!
     end
 
     def load_config!
@@ -89,6 +90,13 @@ module Rpodder
           next if key.include?('taken')
           puts "#{key} #{value}"
         end
+      end
+    end
+
+    def remove_unused!
+      podcasts = Podcast.all(:fields => [:rssurl])
+      podcasts.each do |pcast|
+        Podcast.all(:rssurl => pcast.rssurl.to_s).destroy unless @urls.include?(pcast.rssurl.to_s)
       end
     end
   end
