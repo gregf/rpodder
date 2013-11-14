@@ -9,8 +9,8 @@ require 'terminal-table'
 
 # misc
 require_relative 'rpodder/version.rb'
-require_relative 'rpodder/runner.rb'
 require_relative 'rpodder/configurator'
+require_relative 'rpodder/runner.rb'
 # commands
 require_relative 'rpodder/commands/download'
 require_relative 'rpodder/commands/update'
@@ -34,5 +34,16 @@ module Rpodder
 
   def delete_file(name)
     File.delete(name) rescue nil
+  end
+
+  def remove_empty_dirs(dirname)
+   exit
+    Dir.glob("#{dirname}/*") do |dir|
+      begin
+        Dir.rmdir(dir)
+      rescue SystemCallError
+        next
+      end
+    end
   end
 end
