@@ -1,5 +1,6 @@
 module Rpodder
-  class Runner
+  class Runner < Configurator
+    include Rpodder
 
     def initialize(*args)
       parse_options
@@ -74,7 +75,6 @@ module Rpodder
     def trap_interrupt
       Signal.trap("INT") do
         $stderr.puts "\n\nCaught Ctrl-C, cleaning up, and exiting!"
-        #cleanup
         exit(1)
       end
     end
