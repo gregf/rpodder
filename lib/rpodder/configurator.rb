@@ -2,7 +2,7 @@ module Rpodder
   class Configurator
     include Rpodder
 
-    def initialize
+    def initialize(*args)
       @@default_path = get_config_dir
       @@cachedb = File.join(@@default_path, 'cache.db')
       @@urls_file = File.join(@@default_path, 'urls')
@@ -30,7 +30,7 @@ module Rpodder
 
     def load_urls!
       unless File.exists?(@@urls_file)
-        open(URLS, 'w') do |f|
+        open(@@urls_file, 'w') do |f|
           f.puts 'http://foodfight.libsyn.com/rss'
           f.puts 'http://feeds.feedburner.com/BsdNowHd'
           f.puts 'http://www.badvoltage.org/feed/mp3/'

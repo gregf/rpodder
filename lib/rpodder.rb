@@ -16,6 +16,8 @@ require_relative 'rpodder/commands/download'
 require_relative 'rpodder/commands/update'
 require_relative 'rpodder/commands/list_podcasts'
 require_relative 'rpodder/commands/list_episodes'
+require_relative 'rpodder/commands/import'
+
 # database
 require_relative 'rpodder/database/podcast'
 require_relative 'rpodder/database/episode'

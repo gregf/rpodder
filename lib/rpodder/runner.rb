@@ -66,8 +66,8 @@ module Rpodder
         Rpodder::Update.new
       end
 
-      if @args['import']
-        Rpodder::Import.new
+      if @args['opml']
+        Rpodder::Import.new(@args)
       end
     end
 
