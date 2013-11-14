@@ -11,7 +11,8 @@ module Rpodder
       load_config!
       load_urls!
       load_download_dir!
-      load_cachedb
+      load_database!
+      import_podcasts!
     end
 
     def load_config!
@@ -33,10 +34,17 @@ module Rpodder
           f.puts 'http://www.badvoltage.org/feed/mp3/'
         end
       end
-      @urls ||= IO.readlines(@@urls_file).reject { |l| l.strip[0] == '#' }
+      @urls ||= IO.read(@@urls_file).split.reject { |l| l.strip[0] == '#' }
     end
 
     private
+
+    def load_database!
+      #DataMapper::Logger.new($stdout, :debug)
+      DataMapper.setup(:default, "sqlite://#{@@cachedb}")
+      DataMapper.finalize
+      DataMapper.auto_upgrade!
+    end
 
     def load_working_dir!
       Dir.mkdir @@default_path unless Dir.exists? @@default_path
@@ -44,10 +52,6 @@ module Rpodder
 
     def load_download_dir!
       Dir.mkdir(File.expand_path @conf['download']) unless Dir.exists?(File.expand_path @conf['download'])
-    end
-
-    def load_cachedb
-      @db ||= Sequel.connect("sqlite://#{@@cachedb}")
     end
 
     def start_logging
@@ -59,6 +63,30 @@ module Rpodder
         File.join(ENV['XDG_CONFIG_HOME'], 'rpodder')
       else
         File.join(ENV['HOME'], '.rpodder')
+      end
+    end
+
+    def import_podcasts!
+      @urls.each do |url|
+        feed = Feedzirra::Feed.fetch_and_parse(url)
+        begin
+          Curl::Easy.http_get(url)
+        rescue => e
+          puts "Recieved an error #{e} while accessing #{url}"
+          next
+        end
+
+        podcast = Podcast.first_or_create(
+            title:              feed.title,
+            url:                feed.url,
+            rssurl:             feed.feed_url
+        )
+
+        podcast.save
+        podcast.errors.each do |key, value|
+          next if key.include?('taken')
+          puts "#{key} #{value}"
+        end
       end
     end
   end
