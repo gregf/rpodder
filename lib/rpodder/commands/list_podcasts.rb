@@ -8,6 +8,10 @@ module Rpodder
 
     def get_podcasts
       @podcasts ||= Podcast.all
+      if @podcasts.count == 0
+        puts "No podcasts found"
+        exit 1
+      end
     end
 
     def format_podcasts
