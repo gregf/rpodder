@@ -31,7 +31,7 @@ module Rpodder
     private
 
     def fetch_file(url, file, pcast_title)
-      if @conf['fetcher']
+      if @conf['fetcher'] == 'youtube'
         dest_dir = File.expand_path(@conf['download'])
       else
         dest_dir = File.join(File.expand_path(@conf['download']), pcast_title)
