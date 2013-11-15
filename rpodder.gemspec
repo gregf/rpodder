@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'docopt'
+  gem.add_dependency 'thor'
   gem.add_dependency 'feedzirra'
   gem.add_dependency 'yell'
   gem.add_dependency 'data_mapper'

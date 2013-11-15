@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'docopt'
+require 'thor'
 require 'data_mapper'
 require 'feedzirra'
 require 'fileutils'
@@ -8,9 +8,10 @@ require 'date'
 require 'terminal-table'
 
 # misc
-require_relative 'rpodder/version.rb'
+require_relative 'rpodder/version'
 require_relative 'rpodder/configurator'
-require_relative 'rpodder/runner.rb'
+require_relative 'rpodder/runner'
+require_relative 'rpodder/cli'
 # commands
 require_relative 'rpodder/commands/download'
 require_relative 'rpodder/commands/update'

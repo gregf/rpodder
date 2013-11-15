@@ -1,8 +1,8 @@
 module Rpodder
   class Import < Configurator
-    def initialize(args)
+    def initialize(file)
       super
-      parse_opml(args['<url>'])
+      parse_opml(file)
       import_urls!
     end
 
