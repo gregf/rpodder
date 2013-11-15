@@ -9,7 +9,7 @@ module Rpodder
     def get_podcasts
       @podcasts ||= Podcast.all
       if @podcasts.count == 0
-        puts "No podcasts found"
+        puts 'No podcasts found'
         exit 1
       end
     end
@@ -21,8 +21,8 @@ module Rpodder
       end
       table = Terminal::Table.new :headings => ['ID', 'Title', 'Rss url'], :rows => rows
       table.style = {
-        :border_x => "-",
-        :border_y => " ",
+        :border_x => '-',
+        :border_y => ' ',
         :border_i => '+'
       }
       puts table
