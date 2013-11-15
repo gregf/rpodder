@@ -12,7 +12,7 @@ module Rpodder
 
     def import_urls!
       @doc.search('outline').each do |item|
-        open(@@urls_file, 'a') do |f|
+        open(@urls_file, 'a') do |f|
           f.puts item['xmlurl']
         end
       end

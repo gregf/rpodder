@@ -3,11 +3,11 @@ module Rpodder
     include Rpodder
 
     def initialize(*args)
-      @@default_path = get_config_dir
-      @@cachedb = File.join(@@default_path, 'cache.db')
-      @@urls_file = File.join(@@default_path, 'urls')
-      @@config_file = File.join(@@default_path, 'config')
-      @@lock_file = File.join(@@default_path, 'rpodder.lock')
+      @default_path = get_config_dir
+      @cachedb = File.join(@default_path, 'cache.db')
+      @urls_file = File.join(@default_path, 'urls')
+      @config_file = File.join(@default_path, 'config')
+      @lock_file = File.join(@default_path, 'rpodder.lock')
 
       load_working_dir!
       load_config!
@@ -19,38 +19,38 @@ module Rpodder
     end
 
     def load_config!
-      unless File.exists?(@@config_file)
-        open(@@config_file, 'w') do |f|
+      unless File.exists?(@config_file)
+        open(@config_file, 'w') do |f|
           f.puts '[main]'
           f.puts 'download = ~/podcasts'
           f.puts 'fetcher = wget -c'
         end
       end
-      @conf ||= IniParse.parse(File.read(@@config_file))['main']
+      @conf ||= IniParse.parse(File.read(@config_file))['main']
     end
 
     def load_urls!
-      unless File.exists?(@@urls_file)
-        open(@@urls_file, 'w') do |f|
+      unless File.exists?(@urls_file)
+        open(@urls_file, 'w') do |f|
           f.puts 'http://foodfight.libsyn.com/rss'
           f.puts 'http://feeds.feedburner.com/BsdNowHd'
           f.puts 'http://www.badvoltage.org/feed/mp3/'
         end
       end
-      @urls ||= IO.read(@@urls_file).split.reject { |l| l.strip[0] == '#' }
+      @urls ||= IO.read(@urls_file).split.reject { |l| l.strip[0] == '#' }
     end
 
     private
 
     def load_database!
       #DataMapper::Logger.new($stdout, :debug)
-      DataMapper.setup(:default, "sqlite://#{@@cachedb}")
+      DataMapper.setup(:default, "sqlite://#{@cachedb}")
       DataMapper.finalize
       DataMapper.auto_upgrade!
     end
 
     def load_working_dir!
-      create_dir @@default_path
+      create_dir @default_path
     end
 
     def load_download_dir!
