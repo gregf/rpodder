@@ -6,6 +6,7 @@ require 'fileutils'
 require 'iniparse'
 require 'date'
 require 'terminal-table'
+require 'cocaine'
 
 # misc
 require_relative 'rpodder/version'
@@ -38,7 +39,6 @@ module Rpodder
   end
 
   def remove_empty_dirs(dirname)
-   exit
     Dir.glob("#{dirname}/*") do |dir|
       begin
         Dir.rmdir(dir)
