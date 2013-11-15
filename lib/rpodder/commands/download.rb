@@ -14,6 +14,7 @@ module Rpodder
         fetch_file url, file, pcast_title
       rescue => e
         puts "Failed to download #{url}"
+        puts e
         File.delete(File.join(@conf['download'], file)) if File.exists?(File.join(@conf['download'], file))
       else
         episode.mark_as_downloaded
@@ -21,7 +22,7 @@ module Rpodder
     end
 
     def look_for_episodes
-      episodes = Episode.all(:downloaded => false, :podcast => {:paused => false})
+      episodes = Episode.all(:downloaded => false, :podcast => { :paused => false })
       episodes.each do |ep|
         youtube = (ep.url.to_s.include?('youtube')) || false
         download(ep, youtube)
@@ -46,16 +47,16 @@ module Rpodder
       when /youtube/i
         system %Q{youtube-dl --no-playlist --continue --no-part -o "#{dest_dir}/%(uploader)s/%(title)s.%(ext)s" "#{url}"}
       else
-        puts "Unknown fetcher, please check your config file"
+        puts 'Unknown fetcher, please check your config file'
         exit 1
       end
     end
 
     def file_name(url, youtube)
       if youtube
-        file = system %Q{youtube-dl --get-filename "#{url}"}
+        system %Q{youtube-dl --get-filename "#{url}"}
       else
-        file = File.basename(URI.parse(url).path).gsub(/\s+/, '_').gsub('%20', '_')
+        File.basename(URI.parse(url).path).gsub(/\s+/, '_').gsub('%20', '_')
       end
     end
   end
