@@ -1,5 +1,7 @@
 module Rpodder
   class CLI < Thor
+      class_option :quiet, :type => :boolean
+
       desc "fetch", "Update & Download"
       def fetch
         Rpodder::Update.new
@@ -7,11 +9,11 @@ module Rpodder
       end
       desc "lscasts" ,"List podcasts"
       def lscasts
-        Rpodder::List_podcasts.new
+        Rpodder::ListPodcasts.new
       end
       desc 'lseps', 'List episodes'
       def lseps
-        Rpodder::List_episodes.new
+        Rpodder::ListEpisodes.new
       end
       desc 'download', 'Download podcast episodes'
       def download
