@@ -9,7 +9,7 @@ module Rpodder
       podcast = Podcast.all
       podcast.each do |pcast|
         feed = parse_feed(pcast.rssurl.to_s)
-        feed.entries.each {|entry| add_episodes(pcast.id, entry)}
+        feed.entries.each { |entry| add_episodes(pcast.id, entry) }
       end
     end
 
@@ -35,7 +35,8 @@ module Rpodder
     end
 
     def parse_feed(url)
-      Feedzirra::Feed.add_common_feed_entry_element('enclosure', :value => :url,
+      Feedzirra::Feed.add_common_feed_entry_element('enclosure',
+                                                    :value => :url,
                                                     :as => :enclosure_url)
       Feedzirra::Feed.fetch_and_parse(url)
     end
