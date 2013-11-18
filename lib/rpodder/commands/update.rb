@@ -16,7 +16,7 @@ module Rpodder
     private
 
     def add_episodes(podcast_id, episode)
-      guid = (episode.respond_to?('guid') && episode.guid) || episode.url.to_s + episode.published.to_s
+      guid = (episode.respond_to?('entry_id') && episode.entry_id) || episode.url.to_s + episode.published.to_s
       enclosure_url = (episode.respond_to?('enclosure_url') && episode.enclosure_url) || episode.url
       ep = Episode.first_or_create(
         guid:           guid,
