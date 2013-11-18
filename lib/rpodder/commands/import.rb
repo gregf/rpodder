@@ -1,5 +1,5 @@
 module Rpodder
-  class Import < Configurator
+  class Import < Base
     def initialize(file)
       super
       parse_opml(file)

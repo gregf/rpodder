@@ -1,5 +1,5 @@
 module Rpodder
-  class ListEpisodes < Configurator
+  class ListEpisodes < Base
     def initialize
       super
       get_episodes

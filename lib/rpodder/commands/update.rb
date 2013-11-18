@@ -1,5 +1,5 @@
 module Rpodder
-  class Update < Configurator
+  class Update < Base
     def initialize
       super
       look_for_episodes!

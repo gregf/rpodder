@@ -26,8 +26,11 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'iniparse'
   gem.add_dependency 'nokogiri'
   gem.add_dependency 'terminal-table'
+  gem.add_dependency 'posix-spawn'
 
+  gem.add_development_dependency 'yard'
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'excellent'
   gem.add_development_dependency 'rspec'
 end

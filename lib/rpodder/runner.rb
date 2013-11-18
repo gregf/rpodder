@@ -1,7 +1,7 @@
 module Rpodder
   class Runner
     def initialize(*args)
-      parse_options
+        parse_options
     end
 
     def parse_options

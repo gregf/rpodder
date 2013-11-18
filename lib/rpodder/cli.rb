@@ -1,6 +1,7 @@
 module Rpodder
   class CLI < Thor
-      class_option :quiet, :type => :boolean
+      class_option :quiet, type: :boolean
+      class_option :debug, type: :boolean
 
       desc 'fetch', 'Update & Download'
       def fetch
