@@ -3,9 +3,7 @@ module Rpodder
     include Rpodder::Mixins
 
     def initialize(*args)
-      load_working_dir!
       load_config!
-      load_download_dir!
     end
 
     def load_config!
@@ -15,16 +13,14 @@ module Rpodder
 
     def urls
       create_urls_file unless File.exists?(urls_file)
-      urls ||= []
+      urls = []
       IO.read(urls_file).each_line do |line|
         line.chomp! && line.strip!
-        next if line[0] == '#' || line.empty?
-          urls.push line
+        next if line[0] == '#'
+        urls.push line.downcase
       end
-      urls
+      urls.compact
     end
-
-    private
 
     def cachedb
       File.join(default_path, 'cache.db')
@@ -70,13 +66,6 @@ module Rpodder
         File.join(ENV['XDG_CONFIG_HOME'], 'rpodder')
       else
         File.join(ENV['HOME'], '.rpodder')
-      end
-    end
-
-    def remove_unused!
-      podcasts = Podcast.all(:fields => [:rssurl])
-      podcasts.each do |pcast|
-        Podcast.all(:rssurl => pcast.rssurl.to_s).destroy unless @urls.include?(pcast.rssurl.to_s)
       end
     end
   end

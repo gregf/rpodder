@@ -6,6 +6,10 @@ require 'fileutils'
 require 'iniparse'
 require 'date'
 require 'terminal-table'
+require 'nokogiri'
+require 'open-uri'
+require 'set'
+require 'cgi'
 
 # misc
 require_relative 'rpodder/version'

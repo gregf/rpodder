@@ -1,5 +1,5 @@
 module Rpodder
-  class Runner
+  class Runner < Configurator
     def initialize(*args)
         parse_options
     end
@@ -7,6 +7,7 @@ module Rpodder
     def parse_options
       trap_interrupt
       Rpodder::CLI.start
+      remove_unused!
     end
 
     def trap_interrupt
@@ -15,5 +16,13 @@ module Rpodder
         exit 1
       end
     end
+
+    def remove_unused!
+      podcasts = Podcast.all(:fields => [:rssurl])
+      podcasts.each do |pcast|
+        Podcast.all(:rssurl => pcast.rssurl.to_s).destroy unless urls.include?(pcast.rssurl.to_s)
+      end
+    end
+
   end
 end
