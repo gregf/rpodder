@@ -2,7 +2,6 @@ class Episode
   include DataMapper::Resource
 
   property :id,             Serial
-  property :guid,           String,   length: 1000, unique: true
   property :title,          String,   length: 500
   property :url,            URI,      format: :url, unique: true
   property :enclosure_url,  URI,      format: :url, unique: true
