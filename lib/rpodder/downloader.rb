@@ -8,6 +8,8 @@ module Rpodder
     attr_reader :output
 
     def initialize(episode)
+      super
+
       @url                = episode.enclosure_url
       @file               = get_filename(@url)
       @podcast_title      = format_title(episode.podcast.title)
@@ -22,9 +24,9 @@ module Rpodder
     def download
       begin
         if youtube
-          system %Q{youtube-dl --no-playlist --continue --no-part -o "#{podcasts_directory}/%(uploader)s/%(title)s.%(ext)s" "#{url}"}
+          system %Q{youtube-dl -f #{@conf['youtube-quality']} --no-playlist --continue --no-part -o "#{podcasts_directory}/%(uploader)s/%(title)s.%(ext)s" "#{url}"}
         else
-          system %Q{wget -c #{url} -O "#{@output}"}
+          system %Q{wget -c #{url} -O "#{output}"}
         end
       rescue => e
         puts "Failed to download #{url}"
