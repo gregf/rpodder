@@ -38,6 +38,9 @@ module Rpodder
       open(config_file, 'w') do |f|
         f.puts '[main]'
         f.puts 'download = ~/podcasts'
+        f.puts 'youtube-quality = best'
+        f.puts 'episodes = 10'
+        f.puts 'max-items = 1000'
       end
     end
 
