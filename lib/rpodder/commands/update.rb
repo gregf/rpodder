@@ -22,10 +22,8 @@ module Rpodder
     def add_episodes(url, feed)
       podcast_id = Podcast.first(:fields => [:id], :rssurl => url.downcase).id
       feed.sanitize_entries!
-      count = feed.entries.count
-      @conf['episodes'] = count if count < @conf['episodes']
-      (0..@conf['episodes']).each do |num|
-        episode = feed.entries[num]
+      feeds = feed.entries.first(@conf['episodes'])
+      feeds.each do |episode|
         puts "Adding #{episode.title} for #{podcast_id}"
         enclosure_url = (episode.enclosure_url.nil? && episode.url) || episode.enclosure_url
         ep = Episode.first_or_create(
