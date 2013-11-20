@@ -19,11 +19,12 @@ module Rpodder
       @podcasts.each do |pcast|
         rows << [pcast.id, pcast.title, pcast.rssurl]
       end
-      table = Terminal::Table.new :headings => ['ID', 'Title', 'Rss url'], :rows => rows
+      table_options = {:headings => ['ID', 'Title', 'RSS URL'], :rows => rows}
+      table = Terminal::Table.new(table_options)
       table.style = {
-        :border_x => '-',
-        :border_y => ' ',
-        :border_i => '+'
+        border_x: '-',
+        border_y: ' ',
+        border_i: '+'
       }
       puts table
     end
