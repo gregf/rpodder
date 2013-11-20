@@ -13,13 +13,14 @@ module Rpodder
 
     def urls
       create_urls_file unless File.exists?(urls_file)
-      urls = []
+      urls = Set.new
       IO.read(urls_file).each_line do |line|
-        line.chomp! && line.strip!
-        next if line[0] == '#'
-        urls.push line.downcase
+        line.chomp!
+        line.strip!
+        line.downcase!
+        urls.add(line) unless line[0] == '#'
       end
-      urls.compact
+      urls
     end
 
     def cachedb

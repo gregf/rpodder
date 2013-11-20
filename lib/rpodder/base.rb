@@ -30,7 +30,7 @@ module Rpodder
         podcast = Podcast.first_or_create(
             title:              feed.title.downcase,
             url:                feed.url.downcase,
-            rssurl:             url.downcase
+            rssurl:             url
         )
         podcast.save
         podcast.errors.each do |key, value|
@@ -40,12 +40,12 @@ module Rpodder
     end
 
     def new_feeds
-      Set.new(urls) - Set.new(podcasts)
+      urls - podcasts
     end
 
     def podcasts
-      podcasts  = Podcast.all(:fields => [:rssurl])
-      podcasts.map {|pcast| pcast.rssurl.to_s}.compact
+      feeds  = Podcast.all(:fields => [:rssurl])
+      Set.new(feeds.map {|pcast| pcast.rssurl.to_s})
     end
   end
 end
