@@ -27,6 +27,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'nokogiri'
   gem.add_dependency 'terminal-table'
   gem.add_dependency 'posix-spawn'
+  gem.add_dependency 'stringex'
+  gem.add_dependency 'rainbow'
 
   gem.add_development_dependency 'yard'
   gem.add_development_dependency 'bundler'

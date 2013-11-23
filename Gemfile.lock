@@ -8,6 +8,8 @@ PATH
       iniparse
       nokogiri
       posix-spawn
+      rainbow
+      stringex
       terminal-table
       thor
       yell
@@ -73,7 +75,7 @@ GEM
       ruby_parser (>= 3.0)
       sexp_processor (>= 4.0)
     fastercsv (1.5.5)
-    feedzirra (0.3.0)
+    feedzirra (0.4.0)
       curb (~> 0.8.1)
       loofah (~> 1.2.1)
       nokogiri (~> 1.6.0)

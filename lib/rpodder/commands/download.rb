@@ -5,13 +5,15 @@ module Rpodder
       download_episodes
     end
 
-    def new_episodes
-      Episode.all(:downloaded => false, :podcast => { :paused => false })
-    end
-
     def download_episodes
-      new_episodes.each do |ep|
-        Rpodder::Downloader.new(ep)
+      Episode.new_episodes.each do |ep|
+        begin
+          Rpodder::Downloader.new(ep)
+        rescue => e
+          puts e
+        else
+          ep.mark_as_downloaded
+        end
       end
     end
   end

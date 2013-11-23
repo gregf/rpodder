@@ -1,7 +1,6 @@
 module Rpodder
   class Configurator
     include Rpodder::Mixins
-
     def initialize(*args)
       load_config!
     end

@@ -9,7 +9,8 @@ require 'terminal-table'
 require 'nokogiri'
 require 'open-uri'
 require 'set'
-require 'cgi'
+require 'stringex'
+require 'rainbow'
 
 # misc
 require_relative 'rpodder/version'

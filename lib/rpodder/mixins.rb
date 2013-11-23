@@ -22,5 +22,21 @@ module Rpodder
         end
       end
     end
+  
+    def say(message, color: :default, level: $stdout)
+      level.puts "#{message}".color(color)
+    end
+
+    def error(message)
+      say message, color: :red, level: $stderr
+    end
+
+    def warning
+      say message, color: :yellow
+    end
+
+    def info
+      say message, color: :green
+    end
   end
 end

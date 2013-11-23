@@ -29,17 +29,24 @@ module Rpodder
           system %Q{wget -c #{url} -O "#{output}"}
         end
       rescue => e
-        puts "Failed to download #{url}"
+        error "Failed to download #{url}"
         puts e
-      else
-        episode.mark_as_downloaded
       end
     end
 
     private
 
     def format_title(title)
-      title.downcase.gsub(/\s+/, '_')
+      title.downcase!
+      # Remove some common words that won't make sense for a dir name
+      title.gsub!(/(uploads by|vimeo|feed|quicktime|podcast
+                    |in hd|mp3|ogg|mp4|screencast(s)?)/i, "")
+      title.gsub!(/\([\w\s-]+\)/, "") # remove (hd - 30fps)
+      title.gsub!(/[^a-z0-9\s-]/, '') # Remove non-word characters
+      title.strip! # strip order matters
+      title.gsub!(/\s+/, '-')     # Convert whitespaces to dashes
+      title.gsub!(/-\z/, '')      # Remove trailing dashes
+      title.gsub!(/-+/, '-')      # get rid of double-dashes
     end
 
     def get_filename(url)

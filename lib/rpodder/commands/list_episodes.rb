@@ -10,14 +10,14 @@ module Rpodder
     def get_episodes
       @episodes ||= Episode.all
       if @episodes.count == 0
-        puts 'No episodes found.'
+        error 'No episodes found.'
         exit 1
       end
     end
 
     def format_episodes
       @episodes.each do |eps|
-        puts "#{eps.id} #{eps.title} - #{eps.url}"
+        say "#{eps.id} #{eps.title} - #{eps.url}"
       end
     end
 
