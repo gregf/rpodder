@@ -47,7 +47,8 @@ module Rpodder
 
     def get_filename(url)
       if @youtube
-        system %Q{youtube-dl --get-filename "#{url}"}
+        youtube_flags %W[--get-filename #{url}]
+        system 'youtube-dl', *youtube_flags
       else
         File.basename(URI.parse(url).path).gsub(/\s+/, '_').gsub('%20', '_')
       end
