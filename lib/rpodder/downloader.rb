@@ -9,8 +9,7 @@ module Rpodder
 
     def initialize(episode)
       super
-
-      @url                = episode.enclosure_url
+      @url                = episode.enclosure_url.to_s
       @file               = get_filename(@url)
       @podcast_title      = format_title(episode.podcast.title)
       @youtube            = @url.to_s.include?('youtube.com')
@@ -24,9 +23,11 @@ module Rpodder
     def download
       begin
         if youtube
-          system %Q{youtube-dl -f #{@conf['youtube-quality']} --no-playlist --continue --no-part -o "#{podcasts_directory}/%(uploader)s/%(title)s.%(ext)s" "#{url}"}
+          youtube_flags = %W[--no-playlist --continue --no-part -f #{@conf['youtube-quality']} -o #{podcasts_directory}/#{podcast_title}/%(title)s.%(ext)s #{url}]
+          system 'youtube-dl', *youtube_flags
         else
-          system %Q{wget -c #{url} -O "#{output}"}
+          wget_flags = %W[-c #{url} -O #{output}]
+          system 'wget', *wget_flags
         end
       rescue => e
         error "Failed to download #{url}"
@@ -39,14 +40,15 @@ module Rpodder
     def format_title(title)
       title.downcase!
       # Remove some common words that won't make sense for a dir name
-      title.gsub!(/(uploads by|vimeo|feed|quicktime|podcast
-                    |in hd|mp3|ogg|mp4|screencast(s)?)/i, "")
-      title.gsub!(/\([\w\s-]+\)/, "") # remove (hd - 30fps)
-      title.gsub!(/[^a-z0-9\s-]/, '') # Remove non-word characters
+      title.gsub!(/(uploads by|vimeo|feed|quicktime|podcast|in hd|mp3|ogg|mp4|screencast(s)?)/i, '')
+      title.gsub!(/\([\w\s-]+\)/, '') # remove (hd - 30fps)
+      title.gsub!(/[']+/, '') # remove single quotes
+      title.gsub!(/\W+/, ' ')
       title.strip! # strip order matters
       title.gsub!(/\s+/, '-')     # Convert whitespaces to dashes
       title.gsub!(/-\z/, '')      # Remove trailing dashes
       title.gsub!(/-+/, '-')      # get rid of double-dashes
+      title
     end
 
     def get_filename(url)

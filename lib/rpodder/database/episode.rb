@@ -24,22 +24,12 @@ class Episode
     end
   end
 
-  before :valid?, :set_url
   before :valid?, :set_enclosure_url
-
-  def set_url(context = :default)
-    begin
-      self.url = url.to_s.downcase
-    rescue => e
-      puts e
-    end
-  end
 
   def set_enclosure_url(context = :default)
     begin
       # Youtube feeds don't have a enclosure_url so we just use the url.
-      self.enclosure_url = url if self.enclosure_url.nil?
-      self.enclosure_url = enclosure_url.to_s.downcase
+      self.enclosure_url = url if self.enclosure_url.nil? && url.to_s.include?('youtube')
     rescue => e
       puts e
     end
