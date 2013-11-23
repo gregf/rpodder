@@ -40,7 +40,7 @@ module Rpodder
         f.puts 'download = ~/podcasts'
         f.puts 'youtube-quality = best'
         f.puts 'episodes = 10'
-        f.puts 'max-items = 1000'
+        f.puts 'max-items = 500'
       end
     end
 
