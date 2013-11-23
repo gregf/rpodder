@@ -19,11 +19,16 @@ module Rpodder
     end
 
     def remove_unused!
-      podcasts = Podcast.rssurls
-      podcasts.each do |pcast|
-        Podcast.all(:rssurl => pcast.rssurl.to_s).destroy unless urls.include?(pcast.rssurl.to_s)
+      podcasts_to_remove.each do |pcast|
+        say "Removing unused #{pcast}"
+        Podcast.all(:rssurl => pcast).destroy
       end
     end
 
+    protected
+
+    def podcasts_to_remove
+      podcasts - urls
+    end
   end
 end
