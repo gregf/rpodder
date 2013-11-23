@@ -65,10 +65,11 @@ module Rpodder
     end
 
     def default_path
+      user = Etc.getlogin
       if ENV['XDG_CONFIG_HOME']
         File.join(ENV['XDG_CONFIG_HOME'], 'rpodder')
       else
-        File.join(ENV['HOME'], '.rpodder')
+        File.join(Dir.home(user), '.rpodder')
       end
     end
   end
