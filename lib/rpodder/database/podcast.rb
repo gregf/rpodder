@@ -10,6 +10,23 @@ class Podcast
 
   before :valid?, :set_url
   before :valid?, :set_rssurl
+  before :valid?, :set_title
+
+  private
+
+  def set_title(context = :default)
+    begin
+      # Remove key words from titles
+      title.gsub!(/(uploads by|vimeo|feed|quicktime|podcast|in hd|mp3|ogg|mp4|screencast(s)?)/i, '')
+      title.gsub!(/\([\w\s-]+\)/, '') # Remove (hd - 30fps)
+      title.gsub!(/[']+/, '') # Remove single quotes
+      title.gsub!(/\W+/, ' ') # Remove no word characters
+      title.strip!
+      title
+    rescue => e
+      puts e
+    end
+  end
 
   def self.rssurls
     all(:fields => [:rssurl])

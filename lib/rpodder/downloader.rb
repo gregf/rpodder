@@ -39,12 +39,6 @@ module Rpodder
 
     def format_title(title)
       title.downcase!
-      # Remove some common words that won't make sense for a dir name
-      title.gsub!(/(uploads by|vimeo|feed|quicktime|podcast|in hd|mp3|ogg|mp4|screencast(s)?)/i, '')
-      title.gsub!(/\([\w\s-]+\)/, '') # remove (hd - 30fps)
-      title.gsub!(/[']+/, '') # remove single quotes
-      title.gsub!(/\W+/, ' ')
-      title.strip! # strip order matters
       title.gsub!(/\s+/, '-')     # Convert whitespaces to dashes
       title.gsub!(/-\z/, '')      # Remove trailing dashes
       title.gsub!(/-+/, '-')      # get rid of double-dashes
